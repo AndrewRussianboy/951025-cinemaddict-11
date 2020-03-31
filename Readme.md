@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей](https://up.htmlacademy.ru/ecmascript/11/user/951025).
-* Наставник: `Неизвестно`.
+* Наставник: `Дмитрий Марков`.
 
 ---
 
