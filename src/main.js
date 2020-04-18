@@ -6,9 +6,22 @@ import {createLoadMoreButtonTemplate} from "./components/button.js";
 import {createExtraFilmsContainerTemplate} from "./components/extra-films.js";
 import {createMostCommentedFilmsContainerTemplate} from "./components/commented-films.js";
 import {createFilmCardTemplate} from "./components/film-card.js";
-import {createFilmDetailsPopupTemplate} from "./components/films-details";
+import {generateFilms} from "./mock/film.js";
+import {generateFilm} from "./mock/film.js";
+import {createFilmDetailsPopupTemplate} from "./components/film-details.js";
+import {generateNavigationItems} from "./mock/navigation.js";
+import {createNewCommentMarkup} from "./components/new-comment.js";
+import {createCommentsListMarkup} from "./components/comments.js";
+import {generateComments} from "./mock/comment.js";
+import {createFilmAmountTemplate} from "./components/film-amount.js";
 
-const FILMS_COUNT = 5;
+
+const FILMS_COUNT = 20;
+const FILMS_COUNT_ON_START = 5;
+const TOP_RATED_FILMS = 2;
+const MOST_COMMENTED_FILMS = 2;
+const FILMS_AMOUNT = 120210;
+const NAME_EXAMPLE = `Movie Buff`;
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -17,14 +30,17 @@ const render = (container, template, place) => {
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
-render(siteHeaderElement, createHeaderProfileTemplate(), `beforeend`);
-render(siteMainElement, createSiteMainNavigationTemplate(), `beforeend`);
+const films = generateFilms(FILMS_COUNT);
+const navigationItems = generateNavigationItems();
+const comments = generateComments(generateFilm().comments);
+
+render(siteHeaderElement, createHeaderProfileTemplate(NAME_EXAMPLE), `beforeend`);
+render(siteMainElement, createSiteMainNavigationTemplate(navigationItems), `beforeend`);
 render(siteMainElement, creatSiteSortTemplate(), `beforeend`);
 render(siteMainElement, createFilmsListContainerTemplate(), `beforeend`);
 
 const siteFilmsElement = siteMainElement.querySelector(`.films`);
 const filmsListElement = siteFilmsElement.querySelector(`.films-list`);
-
 
 render(filmsListElement, createLoadMoreButtonTemplate(), `beforeend`);
 
@@ -33,17 +49,54 @@ render(siteFilmsElement, createMostCommentedFilmsContainerTemplate(), `beforeend
 
 const filmsListContainerElement = document.querySelectorAll(`.films-list__container`);
 
-for (let i = 0; i < FILMS_COUNT; i++) {
-  render(filmsListContainerElement[0], createFilmCardTemplate(), `beforeend`);
-}
+let showingFilmsCountOnStart = FILMS_COUNT_ON_START;
 
-for (let i = 0; i < 2; i++) {
-  render(filmsListContainerElement[1], createFilmCardTemplate(), `beforeend`);
-}
+films.slice(0, showingFilmsCountOnStart)
+  .filter((film) => {
+    render(filmsListContainerElement[0], createFilmCardTemplate(film), `beforeend`);
+  });
 
-for (let i = 0; i < 2; i++) {
-  render(filmsListContainerElement[2], createFilmCardTemplate(), `beforeend`);
-}
+films.slice(0, TOP_RATED_FILMS)
+  .filter((film) => {
+    render(filmsListContainerElement[1], createFilmCardTemplate(film), `beforeend`);
+  });
+
+films.slice(0, MOST_COMMENTED_FILMS)
+  .filter((film) => {
+    render(filmsListContainerElement[2], createFilmCardTemplate(film), `beforeend`);
+  });
 
 const siteFooterElement = document.querySelector(`.footer`);
-render(siteFooterElement, createFilmDetailsPopupTemplate(), `afterEnd`);
+render(siteFooterElement, createFilmDetailsPopupTemplate(films[0]), `afterEnd`);
+
+const closeFilmDetailsButton = document.querySelector(`.film-details__close-btn`);
+const filmDetails = document.querySelector(`.film-details`);
+
+closeFilmDetailsButton.addEventListener(`click`, () => {
+  filmDetails.remove();
+});
+
+const filmDetailsComments = document.querySelector(`.film-details__comments-wrap`);
+
+render(filmDetailsComments, createCommentsListMarkup(comments), `beforeend`);
+render(filmDetailsComments, createNewCommentMarkup(), `beforeend`);
+
+const showMoreButton = document.querySelector(`.films-list__show-more`);
+
+showMoreButton.addEventListener(`click`, () => {
+  const previousFilmsCount = showingFilmsCountOnStart;
+  showingFilmsCountOnStart = showingFilmsCountOnStart + FILMS_COUNT_ON_START;
+
+  films.slice(previousFilmsCount, showingFilmsCountOnStart)
+    .forEach((film) => {
+      render(filmsListContainerElement[0], createFilmCardTemplate(film), `beforeend`);
+    });
+
+  if (showingFilmsCountOnStart >= films.length) {
+    showMoreButton.remove();
+  }
+});
+
+const footerStatisticElement = document.querySelector(`.footer__statistics`);
+
+render(footerStatisticElement, createFilmAmountTemplate(FILMS_AMOUNT), `beforeend`);

@@ -1,11 +1,25 @@
-export const createSiteMainNavigationTemplate = () => {
+const createNavigatonItemMarkup = (item, isActive) => {
+  const {link, name, count} = item;
+
+  if (name === `All movies`) {
+    return (
+      `<a href="#${link}" class="main-navigation__item main-navigation__item${isActive ? `--active` : ``}">${name}</a>`
+    );
+  }
+
+  return (
+    `<a href="#${link}" class="main-navigation__item main-navigation__item${isActive ? `--active` : ``}">${name} <span class="main-navigation__item-count">${count}</span></a></a>`
+  );
+};
+
+export const createSiteMainNavigationTemplate = (items) => {
+  const navigationItemsMarkup = items.map((item, index) => createNavigatonItemMarkup(item, index === 0))
+    .join(`\n`);
+
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-        <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-        <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-        <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+        ${navigationItemsMarkup}
       </div>
       <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`
