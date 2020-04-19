@@ -7,6 +7,11 @@ const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
+let getRandomArbitrary = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
+
+
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
@@ -18,4 +23,10 @@ const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-export {getRandomInt, getRandomArrayItem, formatTime};
+const castDurationFormat = (duration) => {
+  const hour = 60;
+  const entireHours = Math.trunc(duration / hour);
+  return duration < hour ? `${duration}m` : `${entireHours}h ${duration - hour * entireHours}m`;
+};
+
+export {getRandomInt, getRandomArrayItem, getRandomArbitrary, formatTime, castDurationFormat};

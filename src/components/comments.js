@@ -30,7 +30,9 @@ export const createCommentsListMarkup = (comments) => {
     createCommentMarkup(item)).join(`\n`);
 
   return (
-    `<ul class="film-details__comments-list">
+    `
+    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+    <ul class="film-details__comments-list">
       ${commentsMarkup}
     </ul>`
   );
