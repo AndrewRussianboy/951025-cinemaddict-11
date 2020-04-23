@@ -2,7 +2,7 @@ import {formatTime} from "../utils.js";
 
 export const createCommentMarkup = (comment) => {
 
-  const {emoji, commentText, name, dueDate} = comment;
+  const {commentText, dueDate, emoji, name} = comment;
 
   const commentDate = `${dueDate.getFullYear()}/${dueDate.getMonth()}/${dueDate.getDate()}`;
   const commentTime = formatTime(dueDate);

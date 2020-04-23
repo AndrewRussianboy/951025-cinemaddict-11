@@ -11,7 +11,6 @@ let getRandomArbitrary = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
-
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
@@ -29,4 +28,8 @@ const castDurationFormat = (duration) => {
   return duration < hour ? `${duration}m` : `${entireHours}h ${duration - hour * entireHours}m`;
 };
 
-export {getRandomInt, getRandomArrayItem, getRandomArbitrary, formatTime, castDurationFormat};
+const getRandomDate = (start, end) => {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+};
+
+export {getRandomInt, getRandomArrayItem, getRandomArbitrary, formatTime, castDurationFormat, getRandomDate};

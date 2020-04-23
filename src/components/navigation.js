@@ -1,15 +1,9 @@
 const createNavigatonItemMarkup = (item, isActive) => {
-  const {link, name, count} = item;
+  const {count, link, name} = item;
 
-  if (name === `All movies`) {
-    return (
-      `<a href="#${link}" class="main-navigation__item main-navigation__item${isActive ? `--active` : ``}">${name}</a>`
-    );
-  }
+  const isNameAllUsers = (name === `All movies`) ? `` : `<span class="main-navigation__item-count">${count}</span>`;
 
-  return (
-    `<a href="#${link}" class="main-navigation__item main-navigation__item${isActive ? `--active` : ``}">${name} <span class="main-navigation__item-count">${count}</span></a></a>`
-  );
+  return `<a href="#${link}" class="main-navigation__item main-navigation__item${isActive ? `--active` : ``}">${name} ${isNameAllUsers}</a></a>`;
 };
 
 export const createSiteMainNavigationTemplate = (items) => {

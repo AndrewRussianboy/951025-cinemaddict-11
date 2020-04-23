@@ -15,13 +15,11 @@ import {createCommentsListMarkup} from "./components/comments.js";
 import {generateComments} from "./mock/comment.js";
 import {createFilmAmountTemplate} from "./components/film-amount.js";
 
-
 const FILMS_COUNT = 20;
 const FILMS_COUNT_ON_START = 5;
 const TOP_RATED_FILMS = 2;
 const MOST_COMMENTED_FILMS = 2;
-const FILMS_AMOUNT = 120210;
-const NAME_EXAMPLE = `Movie Buff`;
+const USER_NAME_MOCK = `Movie Buff`;
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -31,10 +29,10 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
 const films = generateFilms(FILMS_COUNT);
-const navigationItems = generateNavigationItems();
+const navigationItems = generateNavigationItems(films);
 const comments = generateComments(generateFilm().comments);
 
-render(siteHeaderElement, createHeaderProfileTemplate(NAME_EXAMPLE), `beforeend`);
+render(siteHeaderElement, createHeaderProfileTemplate(USER_NAME_MOCK), `beforeend`);
 render(siteMainElement, createSiteMainNavigationTemplate(navigationItems), `beforeend`);
 render(siteMainElement, creatSiteSortTemplate(), `beforeend`);
 render(siteMainElement, createFilmsListContainerTemplate(), `beforeend`);
@@ -69,21 +67,21 @@ films.slice(0, MOST_COMMENTED_FILMS)
 const siteFooterElement = document.querySelector(`.footer`);
 render(siteFooterElement, createFilmDetailsPopupTemplate(films[0]), `afterEnd`);
 
-const closeFilmDetailsButton = document.querySelector(`.film-details__close-btn`);
+const closeFilmDetailsElement = document.querySelector(`.film-details__close-btn`);
 const filmDetails = document.querySelector(`.film-details`);
 
-closeFilmDetailsButton.addEventListener(`click`, () => {
+closeFilmDetailsElement.addEventListener(`click`, () => {
   filmDetails.remove();
 });
 
-const filmDetailsComments = document.querySelector(`.film-details__comments-wrap`);
+const filmDetailsCommentsElement = document.querySelector(`.film-details__comments-wrap`);
 
-render(filmDetailsComments, createCommentsListMarkup(comments), `beforeend`);
-render(filmDetailsComments, createNewCommentMarkup(), `beforeend`);
+render(filmDetailsCommentsElement, createCommentsListMarkup(comments), `beforeend`);
+render(filmDetailsCommentsElement, createNewCommentMarkup(), `beforeend`);
 
-const showMoreButton = document.querySelector(`.films-list__show-more`);
+const showMoreElement = document.querySelector(`.films-list__show-more`);
 
-showMoreButton.addEventListener(`click`, () => {
+showMoreElement.addEventListener(`click`, () => {
   const previousFilmsCount = showingFilmsCountOnStart;
   showingFilmsCountOnStart = showingFilmsCountOnStart + FILMS_COUNT_ON_START;
 
@@ -93,10 +91,10 @@ showMoreButton.addEventListener(`click`, () => {
     });
 
   if (showingFilmsCountOnStart >= films.length) {
-    showMoreButton.remove();
+    showMoreElement.remove();
   }
 });
 
 const footerStatisticElement = document.querySelector(`.footer__statistics`);
 
-render(footerStatisticElement, createFilmAmountTemplate(FILMS_AMOUNT), `beforeend`);
+render(footerStatisticElement, createFilmAmountTemplate(FILMS_COUNT), `beforeend`);
