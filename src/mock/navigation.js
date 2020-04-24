@@ -9,11 +9,11 @@ const filters = {
 const reducer = (filter) => {
   return (count, film) => {
     if (film[filter]) {
-      count++
+      count++;
     }
-    return count
-  }
-}
+    return count;
+  };
+};
 
 const generateNavigationItems = (films) => {
   return Object.keys(filters).map((filter) => {
