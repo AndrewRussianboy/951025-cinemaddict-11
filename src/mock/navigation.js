@@ -1,24 +1,26 @@
-const navigationItemsNames = [`All movies`, `Watchlist`, `History`, `Favorites`];
+/* const navigationItemsNames = [`All movies`, `Watchlist`, `History`, `Favorites`]; */
 
-const dict = {
+const filters = {
   isWatchList: `Watchlist`,
   isWatched: `History`,
   isFavorite: `Favorites`,
 };
 
-const reducer = (accumulator, currentValue) => {
-  Object.keys(dict).forEach((item) => {
-    let k = currentValue[item] ? 1 : 0;
-    return accumulator + k;
-  });
-};
+const reducer = (filter) => {
+  return (count, film) => {
+    if (film[filter]) {
+      count++
+    }
+    return count
+  }
+}
 
 const generateNavigationItems = (films) => {
-  return navigationItemsNames.map((item) => {
+  return Object.keys(filters).map((filter) => {
     return {
-      link: item.toLowerCase(),
-      name: item,
-      count: films.reduce(reducer),
+      link: filters[filter].toLowerCase(),
+      name: filters[filter],
+      count: films.reduce(reducer(filter), 0),
     };
   });
 };
