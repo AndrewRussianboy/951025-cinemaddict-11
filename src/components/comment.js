@@ -1,6 +1,6 @@
-import {formatTime} from "../utils.js";
+import {formatTime, createElement} from "../utils.js";
 
-export const createCommentMarkup = (comment) => {
+const createCommentMarkup = (comment) => {
 
   const {commentText, dueDate, emoji, name} = comment;
 
@@ -24,16 +24,41 @@ export const createCommentMarkup = (comment) => {
   );
 };
 
-export const createCommentsListMarkup = (comments) => {
+const createCommentsListMarkup = (comments) => {
 
   const commentsMarkup = comments.map((item) =>
     createCommentMarkup(item)).join(`\n`);
 
   return (
-    `
-    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
-    <ul class="film-details__comments-list">
-      ${commentsMarkup}
-    </ul>`
+    `<div>
+      <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+      <ul class="film-details__comments-list">
+        ${commentsMarkup}
+      </ul>
+    </div`
   );
 };
+
+export default class Comment {
+  constructor(comments) {
+    this._comments = comments;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentsListMarkup(this._comments);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

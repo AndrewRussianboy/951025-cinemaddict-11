@@ -1,4 +1,6 @@
-export const createNewCommentMarkup = () => {
+import {createElement} from "../utils.js";
+
+const createNewCommentMarkup = () => {
   return (
     `<div class="film-details__new-comment">
       <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -30,3 +32,25 @@ export const createNewCommentMarkup = () => {
       </div>`
   );
 };
+
+export default class NewComment {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createNewCommentMarkup();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

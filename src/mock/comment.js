@@ -1,14 +1,15 @@
 import {getRandomArrayItem, getRandomDate} from "../utils.js";
 
 const emojisList = [`smile`, `angry`, `puke`, `sleeping`];
-const names = [`Tim Macoveev`, `Tony Snowden`, `Johny Walker`, `Edward Parker`, `Charles Manson`, `Philip Glass`];
+const namesList = [`Tim Macoveev`, `Tony Snowden`, `Johny Walker`, `Edward Parker`, `Charles Manson`, `Philip Glass`];
+const commentsList = [`Interesting setting and a good cast`, `So boring!!!`, `Good production and actors`, `The most impressive film ever`, `Must see`, `So-so...`];
 
 const generateComment = () => {
   return {
-    commentText: `Interesting setting and a good cast`,
+    commentText: getRandomArrayItem(commentsList),
     dueDate: getRandomDate(new Date(2012, 0, 1), new Date()),
     emoji: getRandomArrayItem(emojisList),
-    name: getRandomArrayItem(names),
+    name: getRandomArrayItem(namesList),
   };
 };
 

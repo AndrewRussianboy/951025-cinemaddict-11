@@ -1,4 +1,6 @@
-export const createHeaderProfileTemplate = (name) => {
+import {createElement} from "../utils.js";
+
+const createHeaderProfileTemplate = (name) => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">${name}</p>
@@ -6,3 +8,27 @@ export const createHeaderProfileTemplate = (name) => {
     </section>`
   );
 };
+
+export default class Profile {
+  constructor(name) {
+    this._name = name;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createHeaderProfileTemplate(this._name);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
