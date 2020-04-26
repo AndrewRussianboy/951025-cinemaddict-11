@@ -1,5 +1,3 @@
-/* const navigationItemsNames = [`All movies`, `Watchlist`, `History`, `Favorites`]; */
-
 const filters = {
   isWatchList: `Watchlist`,
   isWatched: `History`,
