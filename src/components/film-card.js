@@ -1,7 +1,7 @@
 import {createElement} from "../utils.js";
 
 const createFilmCardTemplate = (film) => {
-  const {description, duration, genre, isFavorite, isWatchList, isWatched, poster, rating, title, year} = film;
+  const {comments, description, duration, genre, isFavorite, isWatchList, isWatched, poster, rating, title, year} = film;
 
   const watchListButtonInactiveClass = isWatchList ? `` : `film-card__controls-item--active`;
   const watchedListButtonInactiveClass = isWatched ? `` : `film-card__controls-item--active`;
@@ -18,7 +18,7 @@ const createFilmCardTemplate = (film) => {
       </p>
       <img src="./images/posters/${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
-      <a class="film-card__comments">89 comments</a>
+      <a class="film-card__comments">${comments} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${watchListButtonInactiveClass}">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${watchedListButtonInactiveClass}">Mark as watched</button>

@@ -29,25 +29,34 @@ const films = generateFilms(FILMS_COUNT);
 const navigationItems = generateNavigationItems(films);
 const comments = generateComments(generateFilm().comments);
 
-const renderFilm = (filmListElement, film) => {
-
-  const filmCardComponent = new FilmCardComponent(film);
+const renderPopup = (film) => {
   const filmPopupComponent = new FilmPopupComponent(film);
-
-  const onFilmCardClick = () => {
-    filmListElement.appendChild(filmPopupComponent.getElement());
-  }
-  const onPopupClose = () => {
-    filmListElement.removeChild(filmPopupComponent.getElement());
-  }
-  const filmDetailsCommentsElement = filmPopupComponent.getElement().querySelector(`.film-details__comments-wrap`);
   const newCommentComponent = new NewCommentComponent();
   const commentComponent = new CommentComponent(comments);
+
+  const filmDetailsCommentsElement = filmPopupComponent.getElement().querySelector(`.film-details__comments-wrap`);
 
   render(filmDetailsCommentsElement, commentComponent.getElement(), RenderPosition.BEFOREEND);
   render(filmDetailsCommentsElement, newCommentComponent.getElement(), RenderPosition.BEFOREEND);
 
+  const onPopupClose = () => {
+    filmPopupComponent.getElement().remove();
+  }
+
   const closeFilmDetailsElement = filmPopupComponent.getElement().querySelector(`.film-details__close-btn`);
+  closeFilmDetailsElement.addEventListener(`click`, onPopupClose);
+
+  return filmPopupComponent;
+};
+
+const renderFilm = (filmListElement, film) => {
+
+  const filmCardComponent = new FilmCardComponent(film);
+
+  const onFilmCardClick = () => {
+    render(filmListElement, renderPopup(film).getElement(), RenderPosition.BEFOREEND);
+  }
+
   const filmTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
   const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
   const filmCardComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
@@ -55,7 +64,6 @@ const renderFilm = (filmListElement, film) => {
   filmTitle.addEventListener(`click`, onFilmCardClick);
   filmCardPoster.addEventListener(`click`, onFilmCardClick);
   filmCardComments.addEventListener(`click`, onFilmCardClick);
-  closeFilmDetailsElement.addEventListener(`click`, onPopupClose);
 
   render(filmListElement, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
 };
