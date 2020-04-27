@@ -35,7 +35,7 @@ const createCommentsListMarkup = (comments) => {
       <ul class="film-details__comments-list">
         ${commentsMarkup}
       </ul>
-    </div`
+    </div>`
   );
 };
 
