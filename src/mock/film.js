@@ -1,4 +1,5 @@
 import {getRandomInt, getRandomArrayItem, getRandomArbitrary, castDurationFormat} from "../utils.js";
+import {generateComments} from "../mock/comment.js";
 
 const filmsTitles = [`Made for each other`, `Popeye meets sinbad`, `Sagebrush Trail`, `Santa Claus conquers the martians`, `The dance of life`, `The great flamarion`, ` The man with the golden arm`];
 const filmsPosters = [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`];
@@ -20,7 +21,7 @@ const getSomeArrayItems = (arr) => {
 const generateFilm = () => {
   return {
     actors: getSomeArrayItems(filmActors).join(`, `),
-    comments: getRandomInt(0, 6),
+    commentsCount: generateComments(getRandomInt(0, 6)),
     country: getRandomArrayItem(countryNames),
     description: getSomeArrayItems(filmsDescription).join(`. `),
     director: getRandomArrayItem(filmDirectors),
