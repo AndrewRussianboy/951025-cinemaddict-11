@@ -157,4 +157,4 @@ renderBoard(boardComponent, films);
 
 const footerStatisticElement = document.querySelector(`.footer__statistics`);
 
-render(footerStatisticElement, new FilmsAmountComponent(FILMS_COUNT).getElement(), RenderPosition.BEFOREEND);
+render(footerStatisticElement, new FilmsAmountComponent(films.length).getElement(), RenderPosition.BEFOREEND);
