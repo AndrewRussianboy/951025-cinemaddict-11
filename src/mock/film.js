@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomArrayItem, getRandomArbitrary, castDurationFormat} from "../utils.js";
+import {getRandomInt, getRandomArrayItem, getRandomArbitrary, castDurationFormat} from "../utils/common.js";
 import {generateComments} from "../mock/comment.js";
 
 const filmsTitles = [`Made for each other`, `Popeye meets sinbad`, `Sagebrush Trail`, `Santa Claus conquers the martians`, `The dance of life`, `The great flamarion`, ` The man with the golden arm`];
@@ -21,7 +21,7 @@ const getSomeArrayItems = (arr) => {
 const generateFilm = () => {
   return {
     actors: getSomeArrayItems(filmActors).join(`, `),
-    commentsCount: generateComments(getRandomInt(0, 6)),
+    comments: generateComments(getRandomInt(0, 6)),
     country: getRandomArrayItem(countryNames),
     description: getSomeArrayItems(filmsDescription).join(`. `),
     director: getRandomArrayItem(filmDirectors),

@@ -1,4 +1,5 @@
-import {formatTime, createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
+import {formatTime} from "../utils/common.js";
 
 const createCommentMarkup = (comment) => {
 
@@ -39,26 +40,13 @@ const createCommentsListMarkup = (comments) => {
   );
 };
 
-export default class Comment {
+export default class Comment extends AbstractComponent {
   constructor(comments) {
+    super();
     this._comments = comments;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentsListMarkup(this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
