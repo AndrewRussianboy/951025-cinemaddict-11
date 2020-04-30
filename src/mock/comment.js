@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getRandomDate} from "../utils.js";
+import {getRandomArrayItem, getRandomDate} from "../utils/common.js";
 
 const emojisList = [`smile`, `angry`, `puke`, `sleeping`];
 const namesList = [`Tim Macoveev`, `Tony Snowden`, `Johny Walker`, `Edward Parker`, `Charles Manson`, `Philip Glass`];
