@@ -21,10 +21,8 @@ const renderComments = (filmPopup, comments) => {
   const newCommentComponent = new NewCommentComponent();
   const commentComponent = new CommentComponent(comments);
 
-  const filmDetailsCommentsElement = filmPopup.getElement().querySelector(`.film-details__comments-wrap`);
-
-  render(filmDetailsCommentsElement, commentComponent, RenderPosition.BEFOREEND);
-  render(filmDetailsCommentsElement, newCommentComponent, RenderPosition.BEFOREEND);
+  render(filmPopup.getFilmDetailsWrap(), commentComponent, RenderPosition.BEFOREEND);
+  render(filmPopup.getFilmDetailsWrap(), newCommentComponent, RenderPosition.BEFOREEND);
 
   return commentComponent;
 };
