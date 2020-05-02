@@ -75,7 +75,7 @@ const renderFilms = (filmListElement, films) => {
   });
 };
 
-const getSortedFilms = (films, sortType, from, to) => {
+const getSortedFilms = (films, sortType) => {
 
   switch (sortType) {
     case SortType.DATE:
@@ -83,7 +83,7 @@ const getSortedFilms = (films, sortType, from, to) => {
     case SortType.RATING:
       return films.slice().sort((a, b) => b.rating - a.rating);
     default:
-      return films.slice(from, to);
+      return films.slice();
   }
 };
 
@@ -162,11 +162,15 @@ export default class PageController {
 
       showingFilmsCount = SHOWING_FILMS_BY_BUTTON;
 
-      const sortedFilms = getSortedFilms(films, sortType, 0, showingFilmsCount);
+      const getFilmsOnStart = (array, from, to) => {
+        return array.slice(from, to);
+      };
+
+      const sortedFilms = getSortedFilms(films, sortType);
 
       filmsListContainerElement[0].innerHTML = ``;
 
-      renderFilms(filmsListContainerElement[0], sortedFilms);
+      renderFilms(filmsListContainerElement[0], getFilmsOnStart(sortedFilms, 0, showingFilmsCount));
 
       renderShowMoreButton();
     });
