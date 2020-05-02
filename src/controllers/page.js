@@ -79,16 +79,12 @@ const getSortedFilms = (films, sortType, from, to) => {
 
   switch (sortType) {
     case SortType.DATE:
-      films = films.slice().sort((a, b) => a.year - b.year);
-      break;
+      return films.slice().sort((a, b) => a.year - b.year);
     case SortType.RATING:
-      films = films.slice().sort((a, b) => b.rating - a.rating);
-      break;
+      return films.slice().sort((a, b) => b.rating - a.rating);
     default:
-      films = films.slice();
+      return films.slice(from, to);
   }
-
-  return films.slice(from, to);
 };
 
 export default class PageController {
