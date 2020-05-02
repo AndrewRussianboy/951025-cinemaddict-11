@@ -3,10 +3,10 @@ import BoardComponent from "./components/board.js";
 import NavigationComponent from "./components/navigation.js";
 import PageController from "./controllers/page.js";
 import ProfileComponent from "./components/profile.js";
-import SortComponent from "./components/sort.js";
 import {generateFilms} from "./mock/film.js";
 import {generateNavigationItems} from "./mock/navigation.js";
 import {render, RenderPosition} from "./utils/render.js";
+import {getRandomInt} from "./utils/common.js";
 
 const FILMS_COUNT = 20;
 const USER_NAME_MOCK = `Movie Buff`;
@@ -14,19 +14,18 @@ const USER_NAME_MOCK = `Movie Buff`;
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
-/* const getPossibilityFilmsZeroValue = () => {
+const getPossibilityFilmsZeroValue = () => {
   if (getRandomInt(0, 2) === 0) {
     return generateFilms(0);
   }
   return generateFilms(FILMS_COUNT);
-}; */
+};
 
-const films = generateFilms(FILMS_COUNT);
+const films = getPossibilityFilmsZeroValue();
 const navigationItems = generateNavigationItems(films);
 
 render(siteHeaderElement, new ProfileComponent(USER_NAME_MOCK), RenderPosition.BEFOREEND);
 render(siteMainElement, new NavigationComponent(navigationItems), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortComponent(), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
 const pageController = new PageController(boardComponent);
