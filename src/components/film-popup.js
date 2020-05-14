@@ -1,7 +1,19 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "../components/abstract-smart-component.js";
+import NewCommentComponent from "../components/new-comment.js";
+
+const createInputMarkup = (name, className) => {
+  return (
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${className}" name="${className}">
+    <label for="${className}" class="film-details__control-label film-details__control-label--${className}">${name}</label>`
+  );
+};
 
 const createFilmDetailsPopupTemplate = (film) => {
   const {actors, country, description, director, duration, multipleGenres, poster, rating, release, title, writers} = film;
+
+  const addToWatchListButton = createInputMarkup(`Add to watchlist`, `watchlist`);
+  const markAsWatchedButton = createInputMarkup(`Mark as watched`, `watched`);
+  const markAsFavoriteButton = createInputMarkup(`Mark as favorite`, `favorite`);
 
   return (
     `<section class="film-details">
@@ -69,14 +81,9 @@ const createFilmDetailsPopupTemplate = (film) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+            ${addToWatchListButton}
+            ${markAsWatchedButton}
+            ${markAsFavoriteButton}
           </section>
         </div>
 
@@ -90,10 +97,12 @@ const createFilmDetailsPopupTemplate = (film) => {
   );
 };
 
-export default class FilmPopup extends AbstractComponent {
+export default class FilmPopup extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._closePopupHandler = null;
+    this._newCommentComponent = new NewCommentComponent();
   }
 
   getTemplate() {
@@ -106,6 +115,23 @@ export default class FilmPopup extends AbstractComponent {
 
   setClosePopupHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
+
+    this._closePopupHandler = handler;
+  }
+
+  setAddToWatchListButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsFavoriteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
   }
 }

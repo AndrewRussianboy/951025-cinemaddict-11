@@ -1,6 +1,21 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "../components/abstract-smart-component.js";
+
+const createEmojiMarkup = (name) => {
+  return (
+    `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
+    <label class="film-details__emoji-label" for="emoji-${name}">
+      <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
+    </label>`
+  );
+};
 
 const createNewCommentMarkup = () => {
+
+  const smileEmoji = createEmojiMarkup(`smile`);
+  const sleepingEmoji = createEmojiMarkup(`sleeping`);
+  const pukeEmoji = createEmojiMarkup(`puke`);
+  const angryEmoji = createEmojiMarkup(`angry`);
+
   return (
     `<div class="film-details__new-comment">
       <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -10,31 +25,45 @@ const createNewCommentMarkup = () => {
       </label>
 
       <div class="film-details__emoji-list">
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-        <label class="film-details__emoji-label" for="emoji-smile">
-          <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-        <label class="film-details__emoji-label" for="emoji-sleeping">
-          <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-        <label class="film-details__emoji-label" for="emoji-puke">
-          <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-        <label class="film-details__emoji-label" for="emoji-angry">
-          <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-        </label>
+        ${smileEmoji}
+        ${sleepingEmoji}
+        ${pukeEmoji}
+        ${angryEmoji}
       </div>`
   );
 };
 
-export default class NewComment extends AbstractComponent {
+export default class NewComment extends AbstractSmartComponent {
+  constructor() {
+    super();
+    this._subscribeOnEvents();
+  }
+
   getTemplate() {
     return createNewCommentMarkup();
+  }
+
+  recoveryListeneres() {
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    const emojiContainer = element.querySelector(`.film-details__add-emoji-label`);
+    const imgElementForEmoji = document.createElement(`img`);
+
+    [...element.querySelectorAll(`.film-details__emoji-label img`)].forEach((emoji) => {
+      emoji.addEventListener(`click`, () => {
+        emojiContainer.append(imgElementForEmoji);
+        imgElementForEmoji.src = emoji.src;
+        imgElementForEmoji.width = `68`;
+        imgElementForEmoji.height = `68`;
+      });
+    });
   }
 }
