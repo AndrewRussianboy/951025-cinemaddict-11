@@ -1,9 +1,9 @@
 import AbstractSmartComponent from "../components/abstract-smart-component.js";
 import NewCommentComponent from "../components/new-comment.js";
 
-const createInputMarkup = (name, className) => {
+const createInputMarkup = (name, className, isActive = false) => {
   return (
-    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${className}" name="${className}">
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${className}" name="${className}" ${isActive ? `` : `film-card__controls-item--active`}>
     <label for="${className}" class="film-details__control-label film-details__control-label--${className}">${name}</label>`
   );
 };
@@ -11,9 +11,9 @@ const createInputMarkup = (name, className) => {
 const createFilmDetailsPopupTemplate = (film) => {
   const {actors, country, description, director, duration, multipleGenres, poster, rating, release, title, writers} = film;
 
-  const addToWatchListButton = createInputMarkup(`Add to watchlist`, `watchlist`);
-  const markAsWatchedButton = createInputMarkup(`Mark as watched`, `watched`);
-  const markAsFavoriteButton = createInputMarkup(`Mark as favorite`, `favorite`);
+  const addToWatchListButton = createInputMarkup(`Add to watchlist`, `watchlist`, film.isWatchList);
+  const markAsWatchedButton = createInputMarkup(`Mark as watched`, `watched`, film.isWatched);
+  const markAsFavoriteButton = createInputMarkup(`Mark as favorite`, `favorite`, film.isFavorite);
 
   return (
     `<section class="film-details">
@@ -116,8 +116,6 @@ export default class FilmPopup extends AbstractSmartComponent {
   setClosePopupHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
-
-    this._closePopupHandler = handler;
   }
 
   setAddToWatchListButtonClickHandler(handler) {

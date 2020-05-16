@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 
-const createButtonMarkup = (name, className, isActive = true) => {
+const createButtonMarkup = (name, className, isActive = false) => {
   return (
     `<button type="button"
     class="film-card__controls-item button film-card__controls-item--${className} ${isActive ? `` : `film-card__controls-item--active`}">${name}
