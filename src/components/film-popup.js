@@ -3,7 +3,7 @@ import NewCommentComponent from "../components/new-comment.js";
 
 const createInputMarkup = (name, className, isActive = false) => {
   return (
-    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${className}" name="${className}" ${isActive ? `` : `film-card__controls-item--active`}>
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${className}" name="${className}" ${isActive ? `` : `checked`}>
     <label for="${className}" class="film-details__control-label film-details__control-label--${className}">${name}</label>`
   );
 };
