@@ -1,40 +1,68 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "../components/abstract-smart-component.js";
 
-const createNewCommentMarkup = () => {
+const emojiArray = [`smile`, `sleeping`, `puke`, `angry`];
+
+const createEmojiMarkup = (name, chosenEmojiName) => {
+  return (
+    `<input class="visually-hidden" class="film-details__emoji-item" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}" ${(name === chosenEmojiName) ? `checked` : ``}}>
+    <label class="film-details__emoji-label" for="emoji-${name}">
+      <img data-action="${name}" src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
+    </label>`
+  );
+};
+
+const createNewCommentMarkup = (name) => {
+
   return (
     `<div class="film-details__new-comment">
-      <div for="add-emoji" class="film-details__add-emoji-label"></div>
+      <div for="add-emoji" class="film-details__add-emoji-label">
+        ${name ? `<img src="./images/emoji/${name}.png" width="68" height="68" alt="emoji">` : ``}
+      </div>
 
       <label class="film-details__comment-label">
         <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
       </label>
 
       <div class="film-details__emoji-list">
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-        <label class="film-details__emoji-label" for="emoji-smile">
-          <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-        </label>
+      ${emojiArray.map((emojiItem) => {
+      return createEmojiMarkup(emojiItem, name);
+    }).join(``)}
 
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-        <label class="film-details__emoji-label" for="emoji-sleeping">
-          <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-        <label class="film-details__emoji-label" for="emoji-puke">
-          <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-        <label class="film-details__emoji-label" for="emoji-angry">
-          <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-        </label>
       </div>`
   );
 };
 
-export default class NewComment extends AbstractComponent {
+export default class NewComment extends AbstractSmartComponent {
+  constructor() {
+    super();
+    this._subscribeOnEvents();
+    this._name = ``;
+  }
+
   getTemplate() {
-    return createNewCommentMarkup();
+    return createNewCommentMarkup(this._name);
+  }
+
+  recoveryListeneres() {
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-details__emoji-list`)
+      // eslint-disable-next-line consistent-return
+      .addEventListener(`click`, (evt) => {
+        if (evt.target.tagName !== `IMG`) {
+          return false;
+        }
+        this._name = evt.target.dataset.action;
+
+        this.rerender();
+      });
   }
 }

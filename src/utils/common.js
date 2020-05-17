@@ -31,3 +31,7 @@ export const castDurationFormat = (duration) => {
 export const getRandomDate = (start, end) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
+
+export const getFilmsOnStart = (array, from, to) => {
+  return array.slice(from, to);
+};
