@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component.js";
-import {formatTime} from "../utils/common.js";
+import {formatDate} from "../utils/common.js";
 
 const createCommentMarkup = (comment) => {
 
   const {commentText, dueDate, emoji, name} = comment;
 
-  const commentDate = `${dueDate.getFullYear()}/${dueDate.getMonth()}/${dueDate.getDate()}`;
-  const commentTime = formatTime(dueDate);
+  const commentDate = formatDate(dueDate, `YYYY/MM/DD`);
+  const commentTime = formatDate(dueDate, `hh:mm`);
 
   return (
     `<li class="film-details__comment">

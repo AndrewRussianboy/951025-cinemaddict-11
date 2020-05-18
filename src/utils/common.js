@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getRandomInt = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -11,21 +13,16 @@ export const getRandomArbitrary = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+export const formatDate = (date, formatType) => {
+  return moment(date).format(formatType);
 };
 
-export const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 24);
-  const minutes = castTimeFormat(date.getMinutes());
-
-  return `${hours}:${minutes}`;
-};
-
-export const castDurationFormat = (duration) => {
-  const hour = 60;
-  const entireHours = Math.trunc(duration / hour);
-  return duration < hour ? `${duration}m` : `${entireHours}h ${duration - hour * entireHours}m`;
+export const formatHours = (minutes) => {
+  if (minutes < 60) {
+    return moment.utc().startOf(`day`).add({minutes}).format(`mm[m]`);
+  } else {
+    return moment.utc().startOf(`day`).add({minutes}).format(`H[h] mm[m]`);
+  }
 };
 
 export const getRandomDate = (start, end) => {

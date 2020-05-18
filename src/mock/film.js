@@ -1,5 +1,7 @@
-import {getRandomInt, getRandomArrayItem, getRandomArbitrary, castDurationFormat} from "../utils/common.js";
+import {getRandomInt, getRandomArrayItem, getRandomArbitrary} from "../utils/common.js";
 import {generateComments} from "../mock/comment.js";
+import {getRandomDate} from "../utils/common.js";
+import {formatDate, formatHours} from "../utils/common.js";
 
 const filmsTitles = [`Made for each other`, `Popeye meets sinbad`, `Sagebrush Trail`, `Santa Claus conquers the martians`, `The dance of life`, `The great flamarion`, ` The man with the golden arm`];
 const filmsPosters = [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`];
@@ -8,7 +10,6 @@ const filmsGenre = [`Action`, `Comedy`, `Crime`, `Drama`, `Fantasy`, `Experiment
 const filmDirectors = [`David Lynch`, `Abbas Kiarostami`, `Bela Tarr`, `Michael Haneke`, `Andrei Tarkovski`];
 const filmWriters = [`Billy Wilder`, `Robert Towne`, `Francis Ford Coppola`, `William Goldman`, `Woody Allen`, `Nora Ephron`];
 const filmActors = [`Jack Nicholson`, `Spencer Tracy`, `Laurence Olivier`, `Jack Lemmon`, `Michael Caine`, `James Stewart`, `Robert Duvall`, `Jeff Bridges`];
-const monthNames = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
 const countryNames = [`USA`, `Russia`, `England`, `Poland`, `France`, `Greece`, `Italy`, `Spain`, `Armenia`, `Australia`];
 
 const getSomeArrayItems = (arr) => {
@@ -25,7 +26,7 @@ const generateFilm = () => {
     country: getRandomArrayItem(countryNames),
     description: getSomeArrayItems(filmsDescription).join(`. `),
     director: getRandomArrayItem(filmDirectors),
-    duration: castDurationFormat(getRandomInt(10, 200)),
+    duration: formatHours(getRandomInt(10, 200)),
     genre: getRandomArrayItem(filmsGenre),
     isWatchList: Math.random() > 0.5,
     isWatched: Math.random() > 0.5,
@@ -33,10 +34,10 @@ const generateFilm = () => {
     multipleGenres: getSomeArrayItems(filmsGenre).join(` `),
     poster: getRandomArrayItem(filmsPosters),
     rating: getRandomArbitrary(0, 5).toFixed(1),
-    release: getRandomInt(0, 31) + ` ` + getRandomArrayItem(monthNames) + ` ` + getRandomInt(1895, 2020),
+    release: formatDate(getRandomDate(new Date(1895, 0, 1), new Date()), `DD MMMM YYYY`),
     title: getRandomArrayItem(filmsTitles),
     writers: getSomeArrayItems(filmWriters).join(`, `),
-    year: getRandomInt(1895, 2020),
+    year: formatDate(getRandomDate(new Date(1895, 0, 1), new Date()), `YYYY`),
   };
 };
 
